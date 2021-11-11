@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-config
+data:
+  PORT: "8888"
+  DB_DRIVER: "postgres"
+  DB_HOST: postgres
+  DB_PORT: "5432"
+

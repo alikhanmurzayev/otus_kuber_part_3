@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      containers:
+        - name: user
+          image: murzayev/otus_kuber_part_3:v1
+          ports:
+            - name: web
+              containerPort: 8888
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: user-config
+                  key: PORT
+            - name: DB_DRIVER
+              valueFrom:
+                configMapKeyRef:
+                  name: user-config
+                  key: DB_DRIVER
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: user-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: user-config
+                  key: DB_PORT
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: user-secret
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: user-secret
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-secret
+                  key: DB_PASSWORD
+            - name: DB_SSLMODE
+              valueFrom:
+                secretKeyRef:
+                  name: user-secret
+                  key: DB_SSLMODE
+          livenessProbe:
+            httpGet:
+              port: 8888
+              path: /health
+            initialDelaySeconds: 3
+            periodSeconds: 1
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              port: 8888
+              path: /health
+            initialDelaySeconds: 3
+            periodSeconds: 1
+            timeoutSeconds: 2
