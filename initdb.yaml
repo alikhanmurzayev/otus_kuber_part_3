@@ -30,5 +30,5 @@ spec:
             - sh
             - -c
             - psql postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres/$POSTGRES_DB --command "create table users (id bigserial primary key, username varchar, first_name varchar, last_name varchar, email varchar, phone varchar)"
-      restartPolicy: Never
+      restartPolicy: OnFailure
   backoffLimit: 0
