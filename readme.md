@@ -32,5 +32,5 @@ curl -H 'Host: arch.homework' "http://arch.homework/health"
 ### Run test:
 
 ```bash
-newman run postman_test.json
+newman run newman run postman_test/postman_test.json 
 ```
